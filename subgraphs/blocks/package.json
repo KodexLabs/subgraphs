@@ -1,0 +1,28 @@
+{
+	"name": "blocks",
+	"repository": {
+		"url": "kodexlabs/subgraphs",
+		"directory": "subgraphs/blocks"
+	},
+	"files": [
+		"generated"
+	],
+	"scripts": {
+        "generate": "mustache ../../config/$NETWORK.js template.yaml > subgraph.yaml && graph codegen",
+		"build": "graph build",
+		"test": "graph test -r",
+		"deploy": "graph deploy --node https://api.thegraph.com/deploy/ kodexlabs/blocks",
+		"create-local": "graph create --node http://localhost:8020/ kodexlabs/blocks",
+		"remove-local": "graph remove --node http://localhost:8020/ kodexlabs/blocks",
+		"deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 kodexlabs/blocks",
+		"deploy-mainnet": "graph deploy --node https://api.thegraph.com/deploy/ kodexlabs/blocks-mainnet"
+	},
+	"dependencies": {
+		"abi": "workspace:^0.0.0",
+		"@graphprotocol/graph-cli": "^0.27.0",
+		"@graphprotocol/graph-ts": "^0.27.0",
+		"matchstick-as": "^0.4.0",
+		"assemblyscript": "^0.19.20",
+		"wabt": "1.0.24"
+	}
+}

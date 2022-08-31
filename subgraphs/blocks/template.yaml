@@ -1,0 +1,24 @@
+specVersion: 0.0.6
+description: Blocks
+repository: https://github.com/kodexlabs/subgraphs
+schema:
+  file: ./schema.graphql
+dataSources:
+  - name: BaseRegistrar
+    kind: ethereum/contract
+    network: {{ network }}
+    source:
+      abi: BaseRegistrar
+      address: '{{ ens.baseRegistrar.address }}'
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./src/mappings/blocks.ts
+      entities:
+        - Blocks
+      abis:
+        - name: Vault
+          file: ./node_modules/abi/ENS/BaseRegistrar.json
+      blockHandlers:
+        - handler: handleBlock

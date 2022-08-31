@@ -1,0 +1,8 @@
+node_modules/
+**/dist/
+**/docs/
+**/build/
+**/generated/
+**/*.d.ts
+**/*.template.js
+**/*.template.ts
