@@ -1,0 +1,31 @@
+specVersion: 0.0.6
+description: ENS Base Registrar transfers
+repository: https://github.com/kodexlabs/subgraphs
+schema:
+  file: ./schema.graphql
+dataSources:
+  - name: BaseRegistrar
+    kind: ethereum/contract
+    network: {{ network }}
+    source:
+      abi: IERC721
+      address: '{{ ens.baseRegistrar.address }}'
+      startBlock: {{ ens.baseRegistrar.startBlock }}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./src/mappings/transfers.ts
+      entities:
+        - ERC721Contract
+      abis:
+        - name: IERC721
+          file: ./node_modules/abi/ERC721/IERC721Metadata.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,indexed uint256)
+          handler: handleApproval
+        - event: ApprovalForAll(indexed address,indexed address,bool)
+          handler: handleApprovalForAll
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+
