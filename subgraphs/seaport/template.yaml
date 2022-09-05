@@ -1,4 +1,6 @@
 specVersion: 0.0.6
+description: Opensea Seaport subgraph
+repository: https://github.com/kodexlabs/subgraphs
 schema:
   file: ./schema.graphql
 dataSources:
