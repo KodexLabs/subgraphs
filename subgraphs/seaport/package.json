@@ -11,11 +11,11 @@
 		"generate": "mustache ../../config/$NETWORK.js template.yaml > subgraph.yaml && graph codegen",
 		"build": "graph build",
 		"test": "graph test -r",
-		"deploy": "graph deploy --node https://api.thegraph.com/deploy/ kodexlabs/ens-transfers",
-		"create-local": "graph create --node http://localhost:8020/ kodexlabs/ens-transfers",
-		"remove-local": "graph remove --node http://localhost:8020/ kodexlabs/ens-transfers",
-		"deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 kodexlabs/ens-transfers",
-		"deploy-mainnet": "graph deploy --node https://api.thegraph.com/deploy/ kodexlabs/ens-transfers-mainnet"
+		"deploy": "graph deploy --node https://api.thegraph.com/deploy/ kodexlabs/seaport",
+		"create-local": "graph create --node http://localhost:8020/ kodexlabs/seaport",
+		"remove-local": "graph remove --node http://localhost:8020/ kodexlabs/seaport",
+		"deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 kodexlabs/seaport",
+		"deploy-mainnet": "graph deploy --node https://api.thegraph.com/deploy/ kodexlabs/seaport-mainnet"
 	},
 	"dependencies": {
 		"@amxx/graphprotocol-utils": "^1.1.0",

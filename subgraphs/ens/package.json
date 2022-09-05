@@ -1,0 +1,29 @@
+{
+	"name": "ens",
+	"repository": {
+		"url": "kodexlabs/subgraphs",
+		"directory": "subgraphs/ens"
+	},
+	"files": [
+		"generated"
+	],
+	"scripts": {
+		"generate": "mustache ../../config/$NETWORK.js template.yaml > subgraph.yaml && graph codegen",
+		"build": "graph build",
+		"test": "graph test -r",
+		"deploy": "graph deploy --node https://api.thegraph.com/deploy/ kodexlabs/ens",
+		"create-local": "graph create --node http://localhost:8020/ kodexlabs/ens",
+		"remove-local": "graph remove --node http://localhost:8020/ kodexlabs/ens",
+		"deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 kodexlabs/ens",
+		"deploy-mainnet": "graph deploy --node https://api.thegraph.com/deploy/ kodexlabs/ens-mainnet"
+	},
+	"dependencies": {
+		"@amxx/graphprotocol-utils": "^1.1.0",
+		"@graphprotocol/graph-cli": "^0.27.0",
+		"@graphprotocol/graph-ts": "^0.27.0",
+		"abi": "workspace:^0.0.0",
+		"assemblyscript": "^0.19.20",
+		"matchstick-as": "^0.4.0",
+		"wabt": "1.0.24"
+	}
+}
