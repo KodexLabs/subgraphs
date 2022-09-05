@@ -1,0 +1,30 @@
+specVersion: 0.0.6
+schema:
+  file: ./schema.graphql
+dataSources:
+  - name: Seaport
+    kind: ethereum
+    network: {{ network }}
+    source:
+      abi: Seaport
+      address: '{{ opensea.seaport.address }}'
+      startBlock: {{ opensea.seaport.startBlock }}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - CounterIncremented
+        - OrderCancelled
+        - OrderFulfilled
+        - OrderValidated
+      abis:
+        - name: Seaport
+          file: ./node_modules/abi/Opensea/Seaport/Seaport.json
+      eventHandlers:
+        - event: OrderFulfilled(bytes32,indexed address,indexed
+            address,address,(uint8,address,uint256,uint256)[],(uint8,address,uint256,uint256,address)[])
+          handler: handleOrderFulfilled
+        - event: OrderValidated(bytes32,indexed address,indexed address)
+          handler: handleOrderValidated
+      file: ./src/mapping.ts

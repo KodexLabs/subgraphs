@@ -1,0 +1,46 @@
+type MatchedOrder @entity {
+	id: ID!
+	transactionHash: Bytes!
+	transactionFromAddress: Bytes!
+	timestamp: Int!
+	offererAddress: Bytes!
+	zoneAddress: Bytes!
+	recipientAddress: Bytes!
+	offers: [Offer!]! @derivedFrom(field: "order")
+	considerations: [Consideration!]! @derivedFrom(field: "order")
+}
+
+type Offer @entity {
+	id: ID!
+	timestamp: Int!
+	order: MatchedOrder!
+	itemType: Int!
+	tokenAddress: Bytes!
+	identifier: BigInt!
+	amount: BigInt!
+
+	offererAddress: Bytes!
+}
+
+type Consideration @entity {
+	id: ID!
+	timestamp: Int!
+	order: MatchedOrder!
+	itemType: Int!
+	tokenAddress: Bytes!
+	identifier: BigInt!
+	amount: BigInt!
+
+	recipientAddress: Bytes!
+	offererAddress: Bytes!
+}
+
+type NewOrder @entity {
+	id: ID!
+	transactionHash: Bytes!
+	transactionFromAddress: Bytes!
+	offererAddress: Bytes!
+	zoneAddress: Bytes!
+	address: Bytes!
+	name: String!
+}
