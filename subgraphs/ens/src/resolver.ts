@@ -107,8 +107,6 @@ export function handlePubkeyChanged(event: PubkeyChangedEvent): void {
 
 export function handleTextChanged(event: TextChangedEvent): void {
 	const resolver = getOrCreateResolver(event.params.node, event.address);
-	const contract = ResolverContract.bind(event.address);
-	const value = contract.try_text(event.params.node, event.params.key);
 
 	const key = event.params.key;
 	if (resolver.texts === null) {
@@ -128,7 +126,6 @@ export function handleTextChanged(event: TextChangedEvent): void {
 	resolverEvent.blockNumber = event.block.number.toI32();
 	resolverEvent.transactionID = event.transaction.hash;
 	resolverEvent.key = event.params.key;
-	resolverEvent.value = value.value;
 	resolverEvent.save();
 }
 
