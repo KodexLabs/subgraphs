@@ -1,22 +1,15 @@
-// Import types and APIs from graph-ts
 import { BigInt, ByteArray, Bytes, crypto, ens, log } from '@graphprotocol/graph-ts';
-
-import { byteArrayFromHex, concat, createEventID, uint256ToByteArray } from './utils';
-
-// Import event types from the registry contract ABI
 import {
 	NameRegistered as NameRegisteredEvent,
 	NameRenewed as NameRenewedEvent,
 	Transfer as TransferEvent
 } from '../generated/BaseRegistrar/BaseRegistrar';
-
 import {
 	NameRegistered as ControllerNameRegisteredEvent,
 	NameRenewed as ControllerNameRenewedEvent
 } from '../generated/EthRegistrarController/EthRegistrarController';
-
-// Import entity types generated from the GraphQL schema
 import { Account, Domain, NameRegistered, NameRenewed, NameTransferred, Registration } from '../generated/schema';
+import { byteArrayFromHex, concat, createEventID, uint256ToByteArray } from './utils';
 
 const rootNode: ByteArray = byteArrayFromHex('93cdeb708b7545dc668eb9280176169d1c33cfd8ed6f04690a0bcc88a93fc4ae');
 

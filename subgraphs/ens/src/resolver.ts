@@ -8,7 +8,6 @@ import {
 	InterfaceChanged as InterfaceChangedEvent,
 	NameChanged as NameChangedEvent,
 	PubkeyChanged as PubkeyChangedEvent,
-	Resolver as ResolverContract,
 	TextChanged as TextChangedEvent
 } from '../generated/Resolver/Resolver';
 import {
