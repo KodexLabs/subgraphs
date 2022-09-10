@@ -1,18 +1,25 @@
+/* eslint-disable eqeqeq,no-eq-null,@typescript-eslint/no-unnecessary-boolean-literal-compare */
+// Import types and APIs from graph-ts
 import { BigInt, crypto, ens } from '@graphprotocol/graph-ts';
+
+import { concat, createEventID, EMPTY_ADDRESS, ROOT_NODE } from './utils';
+
+// Import event types from the registry contract ABI
 import {
 	NewOwner as NewOwnerEvent,
 	NewResolver as NewResolverEvent,
 	NewTTL as NewTTLEvent,
 	Transfer as TransferEvent
 } from '../generated/ENSRegistry/EnsRegistry';
+
+// Import entity types generated from the GraphQL schema
 import { Account, Domain, NewOwner, NewResolver, NewTTL, Resolver, Transfer } from '../generated/schema';
-import { concat, createEventID, EMPTY_ADDRESS, ROOT_NODE } from './utils';
 
 const BIG_INT_ZERO = BigInt.fromI32(0);
 
 function createDomain(node: string, timestamp: BigInt): Domain {
 	let domain = new Domain(node);
-	if (node === ROOT_NODE) {
+	if (node == ROOT_NODE) {
 		domain = new Domain(node);
 		domain.owner = EMPTY_ADDRESS;
 		domain.isMigrated = true;
@@ -24,7 +31,7 @@ function createDomain(node: string, timestamp: BigInt): Domain {
 
 function getDomain(node: string, timestamp: BigInt = BIG_INT_ZERO): Domain | null {
 	const domain = Domain.load(node);
-	if (domain === null && node === ROOT_NODE) {
+	if (domain === null && node == ROOT_NODE) {
 		return createDomain(node, timestamp);
 	}
 	return domain;
@@ -35,13 +42,9 @@ function makeSubnode(event: NewOwnerEvent): string {
 }
 
 function recurseDomainDelete(domain: Domain): string | null {
-	if (
-		(domain.resolver === null || domain.resolver!.split('-')[0] == EMPTY_ADDRESS) &&
-		domain.owner === EMPTY_ADDRESS &&
-		domain.subdomainCount === 0
-	) {
+	if ((domain.resolver == null || domain.resolver!.split('-')[0] == EMPTY_ADDRESS) && domain.owner == EMPTY_ADDRESS && domain.subdomainCount == 0) {
 		const parentDomain = Domain.load(domain.parent!);
-		if (parentDomain !== null) {
+		if (parentDomain != null) {
 			parentDomain.subdomainCount -= 1;
 			parentDomain.save();
 			return recurseDomainDelete(parentDomain);
@@ -78,17 +81,17 @@ function _handleNewOwner(event: NewOwnerEvent, isMigrated: boolean): void {
 		parent.save();
 	}
 
-	if (domain.name === null) {
+	if (domain.name == null) {
 		// Get label and node names
 		let label = ens.nameByHash(event.params.label.toHexString());
-		if (label !== null) {
+		if (label != null) {
 			domain.labelName = label;
 		}
 
 		if (label === null) {
 			label = `[${event.params.label.toHexString().slice(2)}]`;
 		}
-		if (event.params.node.toHexString() === '0x0000000000000000000000000000000000000000000000000000000000000000') {
+		if (event.params.node.toHexString() == '0x0000000000000000000000000000000000000000000000000000000000000000') {
 			domain.name = label;
 		} else {
 			parent = parent!;
@@ -144,7 +147,7 @@ export function handleNewResolver(event: NewResolverEvent): void {
 	domain.resolver = id;
 
 	let resolver = Resolver.load(id);
-	if (resolver === null) {
+	if (resolver == null) {
 		resolver = new Resolver(id);
 		resolver.domain = event.params.node.toHexString();
 		resolver.address = event.params.resolver;
@@ -189,7 +192,7 @@ export function handleNewOwnerOldRegistry(event: NewOwnerEvent): void {
 	const subnode = makeSubnode(event);
 	const domain = getDomain(subnode);
 
-	if (domain === null || domain.isMigrated == false) {
+	if (domain == null || domain.isMigrated == false) {
 		_handleNewOwner(event, false);
 	}
 }
@@ -197,20 +200,20 @@ export function handleNewOwnerOldRegistry(event: NewOwnerEvent): void {
 export function handleNewResolverOldRegistry(event: NewResolverEvent): void {
 	const node = event.params.node.toHexString();
 	const domain = getDomain(node, event.block.timestamp)!;
-	if (node === ROOT_NODE || !domain.isMigrated) {
+	if (node == ROOT_NODE || !domain.isMigrated) {
 		handleNewResolver(event);
 	}
 }
 export function handleNewTTLOldRegistry(event: NewTTLEvent): void {
 	const domain = getDomain(event.params.node.toHexString())!;
-	if (domain.isMigrated === false) {
+	if (domain.isMigrated == false) {
 		handleNewTTL(event);
 	}
 }
 
 export function handleTransferOldRegistry(event: TransferEvent): void {
 	const domain = getDomain(event.params.node.toHexString())!;
-	if (domain.isMigrated === false) {
+	if (domain.isMigrated == false) {
 		handleTransfer(event);
 	}
 }

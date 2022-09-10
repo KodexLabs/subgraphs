@@ -1,3 +1,4 @@
+// Import types and APIs from graph-ts
 import { BigInt, ByteArray, ethereum } from '@graphprotocol/graph-ts';
 
 export function createEventID(event: ethereum.Event): string {

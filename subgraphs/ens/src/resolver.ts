@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq,no-eq-null */
 import { Address, Bytes, ethereum } from '@graphprotocol/graph-ts';
 import {
 	ABIChanged as ABIChangedEvent,
@@ -53,7 +54,7 @@ export function handleMulticoinAddrChanged(event: AddressChangedEvent): void {
 	const resolver = getOrCreateResolver(event.params.node, event.address);
 
 	const coinType = event.params.coinType;
-	if (resolver.coinTypes === null) {
+	if (resolver.coinTypes == null) {
 		resolver.coinTypes = [coinType];
 		resolver.save();
 	} else {
@@ -108,7 +109,7 @@ export function handleTextChanged(event: TextChangedEvent): void {
 	const resolver = getOrCreateResolver(event.params.node, event.address);
 
 	const key = event.params.key;
-	if (resolver.texts === null) {
+	if (resolver.texts == null) {
 		resolver.texts = [key];
 		resolver.save();
 	} else {

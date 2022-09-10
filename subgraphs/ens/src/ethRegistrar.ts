@@ -1,15 +1,23 @@
+/* eslint-disable no-eq-null */
+// Import types and APIs from graph-ts
 import { BigInt, ByteArray, Bytes, crypto, ens, log } from '@graphprotocol/graph-ts';
+
+import { byteArrayFromHex, concat, createEventID, uint256ToByteArray } from './utils';
+
+// Import event types from the registry contract ABI
 import {
 	NameRegistered as NameRegisteredEvent,
 	NameRenewed as NameRenewedEvent,
 	Transfer as TransferEvent
 } from '../generated/BaseRegistrar/BaseRegistrar';
+
 import {
 	NameRegistered as ControllerNameRegisteredEvent,
 	NameRenewed as ControllerNameRenewedEvent
 } from '../generated/EthRegistrarController/EthRegistrarController';
+
+// Import entity types generated from the GraphQL schema
 import { Account, Domain, NameRegistered, NameRenewed, NameTransferred, Registration } from '../generated/schema';
-import { byteArrayFromHex, concat, createEventID, uint256ToByteArray } from './utils';
 
 const rootNode: ByteArray = byteArrayFromHex('93cdeb708b7545dc668eb9280176169d1c33cfd8ed6f04690a0bcc88a93fc4ae');
 
@@ -24,17 +32,18 @@ export function handleNameRegistered(event: NameRegisteredEvent): void {
 	registration.expiryDate = event.params.expires;
 	registration.registrant = account.id;
 
+	registration.kodex = changetype<boolean>(
+		event.transaction.input
+			.toHexString()
+			.toLowerCase()
+			// TODO: There is most likely a better way to check for this.
+			.includes('d00dfeeddeadbeef6b6f646578')
+	);
+
 	const labelName = ens.nameByHash(label.toHexString());
-	if (labelName !== null) {
+	if (labelName != null) {
 		registration.labelName = labelName;
 	}
-
-	registration.kodex = event.transaction.input
-		.toHexString()
-		.toLowerCase()
-		// TODO: There is most likely a better way to check for this.
-		.includes('d00dfeeddeadbeef6b6f646578');
-
 	registration.save();
 
 	const registrationEvent = new NameRegistered(createEventID(event));
@@ -74,7 +83,7 @@ function setNamePreimage(name: string, label: Bytes, cost: BigInt): void {
 	}
 
 	const registration = Registration.load(label.toHex());
-	if (registration === null) return;
+	if (registration == null) return;
 	registration.labelName = name;
 	registration.cost = cost;
 	registration.save();
@@ -100,7 +109,7 @@ export function handleNameTransferred(event: TransferEvent): void {
 
 	const label = uint256ToByteArray(event.params.tokenId);
 	const registration = Registration.load(label.toHex());
-	if (registration === null) return;
+	if (registration == null) return;
 
 	registration.registrant = account.id;
 	registration.save();
