@@ -68,6 +68,7 @@ dataSources:
     network: {{ network }}
     source:
       abi: Resolver
+      startBlock: {{ ens.resolver.startBlock }}
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6

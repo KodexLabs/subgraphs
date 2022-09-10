@@ -16,6 +16,9 @@ module.exports = {
 		ethRegistrarController: {
 			address: '0x283Af0B28c62C092C9727F1Ee09c02CA627EB7F5',
 			startBlock: 9380471
+		},
+		resolver: {
+			startBlock: 3327417
 		}
 	},
 	opensea: {
