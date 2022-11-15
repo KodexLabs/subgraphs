@@ -10,7 +10,7 @@ import {
 	NameChanged as NameChangedEvent,
 	PubkeyChanged as PubkeyChangedEvent,
 	TextChanged as TextChangedEvent
-} from '../generated/Resolver/Resolver';
+} from '../../generated/Resolver/Resolver';
 import {
 	AbiChanged,
 	Account,
@@ -24,7 +24,7 @@ import {
 	PubkeyChanged,
 	Resolver,
 	TextChanged
-} from '../generated/schema';
+} from '../../generated/schema';
 
 export function handleAddrChanged(event: AddrChangedEvent): void {
 	const account = new Account(event.params.a.toHexString());

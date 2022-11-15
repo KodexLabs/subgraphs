@@ -1,25 +1,17 @@
 /* eslint-disable no-eq-null */
-// Import types and APIs from graph-ts
 import { BigInt, ByteArray, Bytes, crypto, ens, log } from '@graphprotocol/graph-ts';
-
-import { byteArrayFromHex, concat, createEventID, uint256ToByteArray } from './utils';
-
-// Import event types from the registry contract ABI
 import {
 	NameRegistered as NameRegisteredEvent,
 	NameRenewed as NameRenewedEvent,
 	Transfer as TransferEvent
-} from '../generated/BaseRegistrar/BaseRegistrar';
-
+} from '../../generated/BaseRegistrar/BaseRegistrar';
 import {
 	NameRegistered as ControllerNameRegisteredEvent,
 	NameRenewed as ControllerNameRenewedEvent
-} from '../generated/EthRegistrarController/EthRegistrarController';
-
-// Import entity types generated from the GraphQL schema
-import { Account, Domain, NameRegistered, NameRenewed, NameTransferred, Registration } from '../generated/schema';
-
-const rootNode: ByteArray = byteArrayFromHex('93cdeb708b7545dc668eb9280176169d1c33cfd8ed6f04690a0bcc88a93fc4ae');
+} from '../../generated/EthRegistrarController/EthRegistrarController';
+import { Account, Domain, NameRegistered, NameRenewed, NameTransferred, Registration } from '../../generated/schema';
+import { REGISTRATION_DOMAIN_ROOT_NONE, REGISTRATION_KODEX_SUFFIX_CORE } from '../constants';
+import { concat, createEventID, uint256ToByteArray } from '../utils';
 
 export function handleNameRegistered(event: NameRegisteredEvent): void {
 	const account = new Account(event.params.owner.toHex());
@@ -27,7 +19,7 @@ export function handleNameRegistered(event: NameRegisteredEvent): void {
 
 	const label = uint256ToByteArray(event.params.id);
 	const registration = new Registration(label.toHex());
-	registration.domain = crypto.keccak256(concat(rootNode, label)).toHex();
+	registration.domain = crypto.keccak256(concat(REGISTRATION_DOMAIN_ROOT_NONE, label)).toHex();
 	registration.registrationDate = event.block.timestamp;
 	registration.expiryDate = event.params.expires;
 	registration.registrant = account.id;
@@ -37,7 +29,7 @@ export function handleNameRegistered(event: NameRegisteredEvent): void {
 			.toHexString()
 			.toLowerCase()
 			// TODO: There is most likely a better way to check for this.
-			.includes('d00dfeeddeadbeef6b6f646578')
+			.includes(REGISTRATION_KODEX_SUFFIX_CORE)
 	);
 
 	const labelName = ens.nameByHash(label.toHexString());
@@ -75,7 +67,7 @@ function setNamePreimage(name: string, label: Bytes, cost: BigInt): void {
 		return;
 	}
 
-	const domain = Domain.load(crypto.keccak256(concat(rootNode, label)).toHex())!;
+	const domain = Domain.load(crypto.keccak256(concat(REGISTRATION_DOMAIN_ROOT_NONE, label)).toHex())!;
 	if (domain.labelName !== name) {
 		domain.labelName = name;
 		domain.name = `${name}.eth`;

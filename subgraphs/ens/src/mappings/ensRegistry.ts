@@ -1,19 +1,14 @@
 /* eslint-disable eqeqeq,no-eq-null,@typescript-eslint/no-unnecessary-boolean-literal-compare */
-// Import types and APIs from graph-ts
 import { BigInt, crypto, ens } from '@graphprotocol/graph-ts';
-
-import { concat, createEventID, EMPTY_ADDRESS, ROOT_NODE } from './utils';
-
-// Import event types from the registry contract ABI
 import {
 	NewOwner as NewOwnerEvent,
 	NewResolver as NewResolverEvent,
 	NewTTL as NewTTLEvent,
 	Transfer as TransferEvent
-} from '../generated/ENSRegistry/EnsRegistry';
-
-// Import entity types generated from the GraphQL schema
-import { Account, Domain, NewOwner, NewResolver, NewTTL, Resolver, Transfer } from '../generated/schema';
+} from '../../generated/ENSRegistry/EnsRegistry';
+import { Account, Domain, NewOwner, NewResolver, NewTTL, Resolver, Transfer } from '../../generated/schema';
+import { EMPTY_ADDRESS, ROOT_NODE } from '../constants';
+import { concat, createEventID } from '../utils';
 
 const BIG_INT_ZERO = BigInt.fromI32(0);
 

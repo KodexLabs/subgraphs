@@ -5,9 +5,6 @@ export function createEventID(event: ethereum.Event): string {
 	return event.block.number.toString().concat('-').concat(event.logIndex.toString());
 }
 
-export const ROOT_NODE = '0x0000000000000000000000000000000000000000000000000000000000000000';
-export const EMPTY_ADDRESS = '0x0000000000000000000000000000000000000000';
-
 // Helper for concatenating two byte arrays
 export function concat(a: ByteArray, b: ByteArray): ByteArray {
 	const out = new Uint8Array(a.length + b.length);

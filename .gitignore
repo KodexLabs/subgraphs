@@ -1,3 +1,5 @@
+.DS_Store
+
 #region Yarn
 .yarn/*
 !.yarn/patches

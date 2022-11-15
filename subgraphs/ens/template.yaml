@@ -18,7 +18,7 @@ dataSources:
       kind: ethereum/events
       apiVersion: 0.0.6
       language: wasm/assemblyscript
-      file: ./src/ensRegistry.ts
+      file: ./src/mappings/ensRegistry.ts
       entities:
         - Domain
         - Account
@@ -46,7 +46,7 @@ dataSources:
       kind: ethereum/events
       apiVersion: 0.0.6
       language: wasm/assemblyscript
-      file: ./src/ensRegistry.ts
+      file: ./src/mappings/ensRegistry.ts
       entities:
         - Domain
         - Account
@@ -73,7 +73,7 @@ dataSources:
       kind: ethereum/events
       apiVersion: 0.0.6
       language: wasm/assemblyscript
-      file: ./src/resolver.ts
+      file: ./src/mappings/resolver.ts
       entities:
         - AddrChanged
         - MulticoinAddrChanged
@@ -119,7 +119,7 @@ dataSources:
       kind: ethereum/events
       apiVersion: 0.0.6
       language: wasm/assemblyscript
-      file: ./src/ethRegistrar.ts
+      file: ./src/mappings/ethRegistrar.ts
       entities:
         - Registration
         - NameRegistered
@@ -146,7 +146,7 @@ dataSources:
       kind: ethereum/events
       apiVersion: 0.0.6
       language: wasm/assemblyscript
-      file: ./src/ethRegistrar.ts
+      file: ./src/mappings/ethRegistrar.ts
       entities:
         - Registration
       abis:
