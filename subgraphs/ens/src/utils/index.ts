@@ -33,3 +33,7 @@ export function uint256ToByteArray(i: BigInt): ByteArray {
 	const hex = i.toHex().slice(2).padStart(64, '0');
 	return byteArrayFromHex(hex);
 }
+
+export function containsNullBytes(name: string): boolean {
+	return name.indexOf('\u0000') !== -1;
+}

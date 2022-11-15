@@ -25,6 +25,7 @@ import {
 	Resolver,
 	TextChanged
 } from '../../generated/schema';
+import { containsNullBytes } from '../utils';
 
 export function handleAddrChanged(event: AddrChangedEvent): void {
 	const account = new Account(event.params.a.toHexString());
@@ -76,7 +77,7 @@ export function handleMulticoinAddrChanged(event: AddressChangedEvent): void {
 }
 
 export function handleNameChanged(event: NameChangedEvent): void {
-	if (event.params.name.indexOf('\u0000') != -1) return;
+	if (containsNullBytes(event.params.name)) return;
 
 	const resolverEvent = new NameChanged(createEventID(event));
 	resolverEvent.resolver = createResolverID(event.params.node, event.address);
