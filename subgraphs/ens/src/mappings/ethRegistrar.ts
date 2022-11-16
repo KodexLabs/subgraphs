@@ -1,5 +1,5 @@
 /* eslint-disable no-eq-null */
-import { BigInt, ByteArray, Bytes, crypto, ens, log } from '@graphprotocol/graph-ts';
+import { BigInt, ByteArray, Bytes, crypto, log } from '@graphprotocol/graph-ts';
 import {
 	NameRegistered as NameRegisteredEvent,
 	NameRenewed as NameRenewedEvent,
@@ -10,7 +10,7 @@ import {
 	NameRenewed as ControllerNameRenewedEvent
 } from '../../generated/EthRegistrarController/EthRegistrarController';
 import { Account, Domain, NameRegistered, NameRenewed, NameTransferred, Registration } from '../../generated/schema';
-import { REGISTRATION_DOMAIN_ROOT_NONE, REGISTRATION_KODEX_SUFFIX_CORE } from '../constants';
+import { NAME_BY_HASH_DEFAULT, REGISTRATION_DOMAIN_ROOT_NONE, REGISTRATION_KODEX_SUFFIX_CORE } from '../constants';
 import { concat, createEventID, uint256ToByteArray } from '../utils';
 
 export function handleNameRegistered(event: NameRegisteredEvent): void {
@@ -32,8 +32,9 @@ export function handleNameRegistered(event: NameRegisteredEvent): void {
 			.includes(REGISTRATION_KODEX_SUFFIX_CORE)
 	);
 
-	const labelName = ens.nameByHash(label.toHexString());
-	if (labelName != null) {
+	// const labelName = ens.nameByHash(label.toHexString());
+	const labelName = NAME_BY_HASH_DEFAULT;
+	if (labelName !== null) {
 		registration.labelName = labelName;
 	}
 	registration.save();

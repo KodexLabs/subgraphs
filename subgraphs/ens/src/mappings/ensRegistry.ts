@@ -1,5 +1,5 @@
 /* eslint-disable eqeqeq,no-eq-null,@typescript-eslint/no-unnecessary-boolean-literal-compare */
-import { BigInt, crypto, ens } from '@graphprotocol/graph-ts';
+import { BigInt, crypto } from '@graphprotocol/graph-ts';
 import {
 	NewOwner as NewOwnerEvent,
 	NewResolver as NewResolverEvent,
@@ -7,7 +7,7 @@ import {
 	Transfer as TransferEvent
 } from '../../generated/ENSRegistry/EnsRegistry';
 import { Account, Domain, NewOwner, NewResolver, NewTTL, Resolver, Transfer } from '../../generated/schema';
-import { EMPTY_ADDRESS, ROOT_NODE } from '../constants';
+import { EMPTY_ADDRESS, NAME_BY_HASH_DEFAULT, ROOT_NODE } from '../constants';
 import { concat, createEventID } from '../utils';
 
 const BIG_INT_ZERO = BigInt.fromI32(0);
@@ -78,8 +78,9 @@ function _handleNewOwner(event: NewOwnerEvent, isMigrated: boolean): void {
 
 	if (domain.name == null) {
 		// Get label and node names
-		let label = ens.nameByHash(event.params.label.toHexString());
-		if (label != null) {
+		// let label = ens.nameByHash(event.params.label.toHexString());
+		let label = NAME_BY_HASH_DEFAULT;
+		if (label !== null) {
 			domain.labelName = label;
 		}
 
