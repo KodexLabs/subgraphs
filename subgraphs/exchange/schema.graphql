@@ -1,0 +1,34 @@
+type Account @entity {
+	"Ethereum Address"
+	id: ID!
+
+	placedOffers: [Offer!]! @derivedFrom(field: "actor")
+
+	listings: [Listing!]! @derivedFrom(field: "actor")
+}
+
+interface Order {
+	id: ID!
+	domain: BigInt!
+	duration: BigInt!
+	amount: BigInt!
+	actor: Account!
+}
+
+type Listing implements Order @entity {
+	id: ID!
+	domain: BigInt!
+	duration: BigInt!
+	amount: BigInt!
+	actor: Account!
+	owner: Account!
+}
+
+type Offer implements Order @entity {
+	id: ID!
+	domain: BigInt!
+	duration: BigInt!
+	amount: BigInt!
+	actor: Account!
+	owner: Account!
+}

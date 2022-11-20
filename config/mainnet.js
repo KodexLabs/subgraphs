@@ -1,5 +1,11 @@
 module.exports = {
 	network: 'mainnet',
+	kodex: {
+		exchange: {
+			address: '0x1f6fD643bf8906BD15415Cb6C7C04Fc4f2C94679',
+			startBlock: 15003358
+		}
+	},
 	ens: {
 		ensRegistryOld: {
 			address: '0x314159265dd8dbb310642f98f50c066173c1259b',
